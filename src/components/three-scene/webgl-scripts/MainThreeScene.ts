@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import RAF from '../../../utils/RAF';
-import ExampleObject from "./ExampleObject"
+import Wave from "./Wave"
 
 class MainThreeScene {
     private camera: THREE.PerspectiveCamera;
@@ -24,7 +24,7 @@ class MainThreeScene {
 
         // CAMERA AND ORBIT CONTROLLER
         this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.position.set(0, 0, 10);
+        this.camera.position.set(0, 2, 3);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enabled = true; // You can adjust this based on your config.
         this.controls.maxDistance = 1500;
@@ -43,7 +43,7 @@ class MainThreeScene {
 
 
 
-        ExampleObject.init(this.scene)
+        Wave.init(this.scene)
 
         // RENDER LOOP AND WINDOW SIZE UPDATER SETUP
         window.addEventListener("resize", () => this.resizeCanvas());
@@ -51,7 +51,7 @@ class MainThreeScene {
     }
 
     update() {
-        ExampleObject.update()
+        Wave.update()
 
         this.renderer.render(this.scene, this.camera);
     }
