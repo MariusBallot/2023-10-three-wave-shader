@@ -47,11 +47,11 @@ class MainThreeScene {
 
         // RENDER LOOP AND WINDOW SIZE UPDATER SETUP
         window.addEventListener("resize", () => this.resizeCanvas());
-        RAF.subscribe('threeSceneUpdate', () => this.update());
+        RAF.subscribe('threeSceneUpdate', (dt) => this.update(dt));
     }
 
-    update() {
-        Wave.update()
+    update(dt:number) {
+        Wave.update(dt)
 
         this.renderer.render(this.scene, this.camera);
     }

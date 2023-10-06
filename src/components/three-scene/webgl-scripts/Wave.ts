@@ -43,8 +43,8 @@ class Wave {
     this.scene.add(this.waveMesh)
   }
 
-  update() {
-    this.waveMat.uniforms.u_time.value += RAF.dt * 0.01;
+  update(dt:number) {
+    this.waveMat.uniforms.u_time.value += 0.015*dt;
   }
 
   bind() {
