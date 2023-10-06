@@ -17,6 +17,7 @@ class Wave {
     matcapTex1.colorSpace = THREE.SRGBColorSpace
 
     this.waveMat = new THREE.ShaderMaterial({
+      side: THREE.DoubleSide,
       uniforms: {
         u_metalMatCap: {
           value: matcapTex1

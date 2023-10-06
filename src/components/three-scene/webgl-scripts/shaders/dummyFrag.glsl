@@ -11,7 +11,7 @@ varying vec3 vPosition;
 float multStep(float signal, float decomp) {
     float outSign = 0.;
     for(float i = 0.; i < decomp; i++) {
-        outSign += step(signal, i / decomp) * (1. / (decomp - 1.));
+        outSign += step((i+1.) / decomp, signal) * (1. / (decomp-1.));
     }
     return outSign;
 }
@@ -20,7 +20,7 @@ void main() {
 
     // Main Foam
     float bNoise = fbm3d(vec3(vUv.y, vUv.x, u_time * 0.001), 10) * 0.4;
-    float sine = sin((vUv.x + bNoise) * 5. - u_time * 0.4);
+    float sine = sin((vUv.x + bNoise) * 5. - u_time * 0.4-3.14);
     sine = (sine + 1.) / 2.;
     sine = multStep(sine, 4.);
     
@@ -33,9 +33,12 @@ void main() {
 
 
     // Floaters
-    vec2 stUv = vUv * vec2(5., 20.) + vec2(-u_time * 0.03, 0.);
+    vec2 stUv = vUv * vec2(5., 20.) + vec2(-u_time * 0.3, 0.);
     float sNoise = snoise3(vec3(stUv, u_time * 0.05));
-    sNoise = step(sNoise, -.7);
+    sNoise *= 3.;
+    sNoise -= 1.5;
+    sNoise = clamp(sNoise, .0, 1.);
+    sNoise = multStep(sNoise, 3.);
 
     vec3 outCol = mix(u_blue, vec3(1.), sine);
     outCol += sNoise;
