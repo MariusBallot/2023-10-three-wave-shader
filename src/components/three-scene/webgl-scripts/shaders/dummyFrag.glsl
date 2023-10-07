@@ -43,7 +43,4 @@ void main() {
     vec3 outCol = mix(u_blue, vec3(1.), sine);
     outCol += sNoise;
     gl_FragColor = vec4(outCol, 1.);
-
-
-
 }
