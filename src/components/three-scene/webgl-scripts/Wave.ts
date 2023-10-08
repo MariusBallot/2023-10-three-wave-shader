@@ -5,27 +5,20 @@ import RAF from "@/utils/RAF"
 
 class Wave {
   private scene: THREE.Scene | undefined;
-  private texLoader: THREE.TextureLoader;
   private waveMesh: THREE.Mesh;
   private waveMat: THREE.ShaderMaterial;
 
   constructor() {
     this.bind()
-    this.texLoader = new THREE.TextureLoader()
-
-    const matcapTex1 = this.texLoader.load("/assets/textures/black-metal-matcap.png")
-    matcapTex1.colorSpace = THREE.SRGBColorSpace
 
     this.waveMat = new THREE.ShaderMaterial({
       side: THREE.DoubleSide,
       uniforms: {
-        u_metalMatCap: {
-          value: matcapTex1
-        },
+
         u_time: {
           value: 0,
         },
-        u_blue:{
+        u_blue: {
           value: new THREE.Color("rgb( 0, 89,	179)").convertLinearToSRGB()
         }
       },
@@ -43,8 +36,8 @@ class Wave {
     this.scene.add(this.waveMesh)
   }
 
-  update(dt:number) {
-    this.waveMat.uniforms.u_time.value += 0.015*dt;
+  update() {
+    this.waveMat.uniforms.u_time.value += 0.015 * RAF.dt;
   }
 
   bind() {

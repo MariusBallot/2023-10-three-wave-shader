@@ -1,15 +1,17 @@
 class RAF {
-  private callbacks: { name: string; callback: (dt: number) => void }[];
+  private callbacks: { name: string; callback: () => void }[];
   private requestId: number | undefined;
-  private lastTime: number | undefined;
+  private prevTimestamp: number | undefined;
+  public dt: number = 0;
 
   constructor() {
     this.bind();
     this.callbacks = [];
-    this.render(0);
+    this.render = this.render.bind(this);
+    this.render();
   }
 
-  subscribe(name: string, callback: (dt: number) => void) {
+  subscribe(name: string, callback: () => void) {
     this.callbacks.push({
       name: name,
       callback: callback,
@@ -20,21 +22,23 @@ class RAF {
     this.callbacks = this.callbacks.filter((item) => item.name !== name);
   }
 
-  render = (currentTime: number) => {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (this.lastTime === undefined) {
-        this.lastTime = currentTime;
+  render(timestamp: number = 0) {
+    if (typeof window !== 'undefined') {
+      if (this.prevTimestamp === undefined) {
+        this.prevTimestamp = timestamp;
       }
-      const dt = (currentTime - this.lastTime); // Convert to seconds
-      this.lastTime = currentTime;
+
+      // Calculate the frame delta time
+      this.dt = (timestamp - this.prevTimestamp); // Convert to seconds
+      this.prevTimestamp = timestamp;
 
       this.requestId = window.requestAnimationFrame(this.render);
-
-      this.callbacks.forEach((item) => {
-        item.callback(dt);
-      });
     }
-  };
+
+    this.callbacks.forEach((item) => {
+      item.callback();
+    });
+  }
 
   private bind() {
     this.subscribe = this.subscribe.bind(this);
