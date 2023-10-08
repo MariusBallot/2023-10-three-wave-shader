@@ -28,9 +28,9 @@ class MainThreeScene {
     // MAIN SCENE INSTANCE
     this.scene = new THREE.Scene();
 
-    this.camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 0.1, 1000);
     if (this.camera) {
-      this.camera.position.set(0, 0, 20);
+      this.camera.position.set(3, 3, 5);
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       if (this.controls) {
         this.controls.enabled = true; // You can adjust this based on your config.
